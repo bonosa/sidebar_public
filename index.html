@@ -52,24 +52,9 @@
             transform: scale(1.1);
             background: #f1f1f1;
         }
-
-        /* ✅ Ensure burger always exists */
-        #openSidebar {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            font-size: 30px;
-            background: transparent;
-            border: none;
-            color: black;
-            cursor: pointer;
-            z-index: 2000;
-        }
     </style>
 </head>
 <body>
-    <!-- ✅ Burger Button -->
-    <button id="openSidebar">☰</button>
 
     <h1>Welcome to Your Dynamic Sidebar</h1>
     <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
@@ -77,7 +62,26 @@
     <a href="dashboard.html" class="btn">⚙️ Customize Sidebar</a>
     <a href="faq.html" class="btn">❓ Troubleshoot & FAQ</a>
 
-    <!-- ✅ Ensure sidebar script is properly linked -->
-    <script src="https://bonosa.github.io/sidebar_public/sidebar.min.js"></script>
+    <!-- Install Sidebar Button (Shows only if sidebar is NOT installed) -->
+    <button id="installSidebarBtn" class="btn" onclick="installSidebar()">📥 Install Sidebar</button>
+
+    <script>
+        function installSidebar() {
+            if (document.cookie.includes("sidebarRemoved=true")) {
+                document.cookie = "sidebarRemoved=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            }
+            let script = document.createElement("script");
+            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js";
+            document.body.appendChild(script);
+            alert("Sidebar installed successfully!");
+            document.getElementById("installSidebarBtn").style.display = "none";
+        }
+
+        // Hide install button if sidebar is already installed
+        if (!document.cookie.includes("sidebarRemoved=true")) {
+            document.getElementById("installSidebarBtn").style.display = "none";
+        }
+    </script>
+
 </body>
 </html>
