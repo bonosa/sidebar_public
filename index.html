@@ -18,19 +18,23 @@
             justify-content: center;
             align-items: center;
         }
+
         @keyframes gradientMove {
             0% { background-position: 0% 50%; }
             100% { background-position: 100% 50%; }
         }
+
         h1 {
             font-size: 3rem;
             font-weight: bold;
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
         }
+
         p {
             font-size: 1.5rem;
             margin-bottom: 30px;
         }
+
         .btn {
             background: white;
             color: black;
@@ -43,57 +47,37 @@
             transition: all 0.3s ease-in-out;
             margin: 10px;
         }
+
         .btn:hover {
             transform: scale(1.1);
             background: #f1f1f1;
         }
+
+        /* ✅ Ensure burger always exists */
+        #openSidebar {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            font-size: 30px;
+            background: transparent;
+            border: none;
+            color: black;
+            cursor: pointer;
+            z-index: 2000;
+        }
     </style>
 </head>
 <body>
+    <!-- ✅ Burger Button -->
+    <button id="openSidebar">☰</button>
 
     <h1>Welcome to Your Dynamic Sidebar</h1>
     <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
-    
+
     <a href="dashboard.html" class="btn">⚙️ Customize Sidebar</a>
     <a href="faq.html" class="btn">❓ Troubleshoot & FAQ</a>
 
-    <!-- Install Sidebar Button -->
-    <button onclick="installSidebar()" class="btn">📥 Install Sidebar</button>
-    <!-- Floating Message Box -->
-    <div id="messageBox" style="display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8); color: white; padding: 15px 20px; border-radius: 10px; font-size: 1.2rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); z-index: 1000; opacity: 0; transition: opacity 0.5s ease-in-out;">
-    ✅ Sidebar installed! Look for the <b>☰</b> button at the top left when you click me.
-</div>
-
-<script>
-function showMessage() {
-    let msg = document.getElementById("messageBox");
-    msg.style.display = "block";
-    setTimeout(() => { msg.style.opacity = "1"; }, 100); // Fade in
-    setTimeout(() => { msg.style.opacity = "0"; setTimeout(() => { msg.style.display = "none"; }, 500); }, 3000); // Fade out
-}
-
-function installSidebar() {
-    let script = document.createElement("script");
-    script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js";
-    document.body.appendChild(script);
-    showMessage();
-}
-</script>
-
-    <script>
-        function installSidebar() {
-            if (document.cookie.includes("sidebarRemoved=true")) {
-                alert("You have previously uninstalled the sidebar. Please refresh the page and click 'Install Sidebar' again.");
-                return;
-            }
-            let script = document.createElement("script");
-            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js";
-            document.body.appendChild(script);
-            alert("Sidebar installed successfully!");
-        }
-    </script>
-
+    <!-- ✅ Ensure sidebar script is properly linked -->
+    <script src="https://bonosa.github.io/sidebar_public/sidebar.min.js"></script>
 </body>
 </html>
