@@ -1,77 +1,99 @@
-(() => {
-    if (document.cookie.includes("sidebarRemoved=true")) {
-        let burger = document.getElementById("openSidebar");
-        if (burger) burger.remove();
-    } else {
-        let e = document.createElement("div");
-        e.id = "custom-sidebar";
-        e.style.position = "fixed";
-        e.style.width = "250px";
-        e.style.height = "100vh";
-        e.style.padding = "15px";
-        e.style.boxShadow = "2px 0 5px rgba(0,0,0,0.5)";
-        e.style.transition = "transform 0.5s ease-in-out";
-        e.style.zIndex = "1000";
-        e.style.background = localStorage.getItem("bgColor") || "#d9eafd";
-        e.style.color = localStorage.getItem("textColor") || "#333";
-        e.style.left = "-270px";
-        e.style.display = "flex";
-        e.style.flexDirection = "column";
-        e.style.justifyContent = "space-between";
-        console.log("Sidebar script loaded");
-
-        e.innerHTML = `
-            <div>
-                <button id="toggleSidebar" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; font-size: 24px; cursor: pointer;">✖</button>
-                <h2>📂 Menu</h2>
-                <ul>
-                    <li><a href="https://bonosa.github.io/sidebar_public/index.html">🏠 Home</a></li>
-                    <li><a href="https://bonosa.github.io/sidebar_public/dashboard.html">⚙️ Customize Sidebar</a></li>
-                    <li><a href="https://bonosa.github.io/sidebar_public/faq.html">❓ Troubleshoot & FAQ</a></li>
-                    <li><a href="mailto:sbono@gmail.com">📧 Contact</a></li>
-                </ul>
-            </div>
-            <div style="margin-top: auto; text-align: center; font-size: 14px;">
-                <a href="#" id="uninstallSidebar" style="color: red; text-decoration: none;">❌ Uninstall Sidebar</a>
-            </div>
-        `;
-
-        document.body.appendChild(e);
-
-        document.getElementById("uninstallSidebar").addEventListener("click", function () {
-            document.cookie = "sidebarRemoved=true; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
-            alert("Sidebar uninstalled. Refresh the page to apply changes.");
-            e.remove();
-            let t = document.getElementById("openSidebar");
-            if (t) t.remove();
-        });
-
-        document.getElementById("toggleSidebar").addEventListener("click", function () {
-            e.style.transform = "translateX(" + ("-270px" === e.style.left ? "0" : "-270px") + ")";
-        });
-
-        // ✅ Ensure the Burger Always Exists
-        function createBurger() {
-            let existingBurger = document.getElementById("openSidebar");
-            if (!existingBurger) {
-                let burger = document.createElement("button");
-                burger.id = "openSidebar";
-                burger.textContent = "☰";
-                burger.style.position = "fixed";
-                burger.style.top = "15px";
-                burger.style.left = "15px";
-                burger.style.fontSize = "30px";
-                burger.style.background = "transparent";
-                burger.style.border = "none";
-                burger.style.color = "black";
-                burger.style.cursor = "pointer";
-                burger.onclick = function () {
-                    e.style.transform = "translateX(0)";
-                };
-                document.body.appendChild(burger);
-            }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Your Sidebar</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #6b6bff, #6bff6b);
+            background-size: 400% 400%;
+            animation: gradientMove 8s infinite alternate ease-in-out;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background: white;
+            color: black;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            margin: 10px;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
 
-        createBurger(); // Call this function to ensure the burger exists on page load
-    }
-})();
+    <h1>Welcome to Your Dynamic Sidebar</h1>
+    <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
+    
+    <a href="dashboard.html" class="btn">⚙️ Customize Sidebar</a>
+    <a href="faq.html" class="btn">❓ Troubleshoot & FAQ</a>
+
+    <!-- Install Sidebar Button -->
+    <button onclick="installSidebar()" class="btn">📥 Install Sidebar</button>
+    <!-- Floating Message Box -->
+    <div id="messageBox" style="display: none; position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8); color: white; padding: 15px 20px; border-radius: 10px; font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); z-index: 1000; opacity: 0; transition: opacity 0.5s ease-in-out;">
+    ✅ Sidebar installed! Look for the <b>☰</b> button at the top left when you click me.
+</div>
+
+<script>
+function showMessage() {
+    let msg = document.getElementById("messageBox");
+    msg.style.display = "block";
+    setTimeout(() => { msg.style.opacity = "1"; }, 100); // Fade in
+    setTimeout(() => { msg.style.opacity = "0"; setTimeout(() => { msg.style.display = "none"; }, 500); }, 3000); // Fade out
+}
+
+function installSidebar() {
+    let script = document.createElement("script");
+    script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js";
+    document.body.appendChild(script);
+    showMessage();
+}
+</script>
+
+    <script>
+        function installSidebar() {
+            if (document.cookie.includes("sidebarRemoved=true")) {
+                alert("You have previously uninstalled the sidebar. Please refresh the page and click 'Install Sidebar' again.");
+                return;
+            }
+            let script = document.createElement("script");
+            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js";
+            document.body.appendChild(script);
+            alert("Sidebar installed successfully!");
+        }
+    </script>
+
+</body>
+</html>
