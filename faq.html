@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar FAQ & Troubleshooting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        h1 {
+            text-align: center;
+        }
+        .faq-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .faq-item:hover {
+            background-color: #f1f1f1;
+        }
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .embed-container {
+            background: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .copy-btn {
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .copy-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sidebar FAQ & Troubleshooting</h1>
+    
+    <div class="container">
+        <h2>📥 How to Install</h2>
+        <div class="embed-container">
+            <p>Copy and paste this script tag into your website:</p>
+            <textarea id="embedCode" readonly>
+<script src="https://your-private-repo.github.io/sidebar.js"></script>
+            </textarea>
+            <button class="copy-btn" onclick="copyEmbedCode()">📋 Copy Embed Code</button>
+        </div>
+
+        <h2>❓ Frequently Asked Questions</h2>
+
+        <div class="faq-item" onclick="toggleFAQ(0)">
+            <strong>1️⃣ How do I install the sidebar on my website?</strong>
+        </div>
+        <div class="faq-answer">Copy the embed code above and paste it inside the `<head>` section of your website.</div>
+
+        <div class="faq-item" onclick="toggleFAQ(1)">
+            <strong>2️⃣ Can I customize the sidebar colors?</strong>
+        </div>
+        <div class="faq-answer">Yes! Go to the <a href="dashboard.html">Customization Page</a> and select your preferred colors.</div>
+
+        <div class="faq-item" onclick="toggleFAQ(2)">
+            <strong>3️⃣ My sidebar is not showing up! What should I do?</strong>
+        </div>
+        <div class="faq-answer">
+            Try these steps:
+            <ul>
+                <li>Check that the script tag is correctly added inside your website.</li>
+                <li>Open Developer Console (`F12` → Console) to check for errors.</li>
+                <li>Clear cache (`Ctrl + Shift + R`) and reload the page.</li>
+            </ul>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(3)">
+            <strong>4️⃣ How do I uninstall the sidebar?</strong>
+        </div>
+        <div class="faq-answer">Simply remove the script tag from your website, and the sidebar will be gone!</div>
+
+        <h2>🔧 Troubleshooting</h2>
+
+        <div class="faq-item" onclick="toggleFAQ(4)">
+            <strong>🚨 Sidebar is not saving my color changes!</strong>
+        </div>
+        <div class="faq-answer">
+            Make sure your browser allows localStorage. Try clearing localStorage:
+            <br><code>localStorage.clear();</code>
+        </div>
+
+        <div class="faq-item" onclick="toggleFAQ(5)">
+            <strong>🚨 The sidebar is covering my website content!</strong>
+        </div>
+        <div class="faq-answer">
+            Change the sidebar position in <a href="dashboard.html">Customization</a> (Left/Right).
+        </div>
+    </div>
+
+    <script>
+        function toggleFAQ(index) {
+            let answers = document.querySelectorAll(".faq-answer");
+            answers[index].style.display = answers[index].style.display === "block" ? "none" : "block";
+        }
+
+        function copyEmbedCode() {
+            let embedCode = document.getElementById("embedCode");
+            embedCode.select();
+            document.execCommand("copy");
+            alert("Embed code copied!");
+        }
+    </script>
+
+</body>
+</html>

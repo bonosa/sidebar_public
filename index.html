@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Your Sidebar</title>
-
-    
-
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -21,23 +18,19 @@
             justify-content: center;
             align-items: center;
         }
-
         @keyframes gradientMove {
             0% { background-position: 0% 50%; }
             100% { background-position: 100% 50%; }
         }
-
         h1 {
             font-size: 3rem;
             font-weight: bold;
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
         }
-
         p {
             font-size: 1.5rem;
             margin-bottom: 30px;
         }
-
         .btn {
             background: white;
             color: black;
@@ -50,30 +43,13 @@
             transition: all 0.3s ease-in-out;
             margin: 10px;
         }
-
         .btn:hover {
             transform: scale(1.1);
             background: #f1f1f1;
         }
-
-        /* Burger Menu */
-        #openSidebar {
-            position: fixed;
-            top: 20px;
-            left: 10px;
-            padding: 10px;
-            font-size: 24px;
-            background: transparent;
-            color: white;
-            border: none;
-            cursor: pointer;
-            z-index: 999;
-        }
     </style>
 </head>
 <body>
-    <!-- Burger Menu Button -->
-    <button id="openSidebar">☰</button>
 
     <h1>Welcome to Your Dynamic Sidebar</h1>
     <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
@@ -81,7 +57,21 @@
     <a href="dashboard.html" class="btn">⚙️ Customize Sidebar</a>
     <a href="faq.html" class="btn">❓ Troubleshoot & FAQ</a>
 
-    <!-- Load Sidebar -->
-    <script src="https:/bonosa.github.io/sidebar.min.js"></script>
+    <!-- Install Sidebar Button -->
+    <button onclick="installSidebar()" class="btn">📥 Install Sidebar</button>
+
+    <script>
+        function installSidebar() {
+            if (document.cookie.includes("sidebarRemoved=true")) {
+                alert("You have previously uninstalled the sidebar. Please refresh the page and click 'Install Sidebar' again.");
+                return;
+            }
+            let script = document.createElement("script");
+            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js";
+            document.body.appendChild(script);
+            alert("Sidebar installed successfully!");
+        }
+    </script>
+
 </body>
 </html>
