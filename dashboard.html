@@ -137,7 +137,7 @@
             location.reload();
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function() {
             let bgColor = localStorage.getItem("bgColor") || "#ff99cc";
             let textColor = localStorage.getItem("textColor") || "#3399ff";
             document.getElementById("bgColor").value = bgColor;
@@ -150,19 +150,6 @@
 
     </script>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                let bgColor = localStorage.getItem("bgColor");
-                let textColor = localStorage.getItem("textColor");
-
-                if (bgColor) {
-                    document.body.style.background = bgColor;
-                }
-                if (textColor) {
-                    document.body.style.color = textColor;
-                }
-            });
-        </script>
-        -
+    
 </body>
 </html>

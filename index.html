@@ -47,25 +47,33 @@
     <a href="https://bonosa.github.io/sidebar_public/faq.html" class="btn">❓ Troubleshoot & FAQ</a>
     
     <!-- Install Sidebar Button (Shows only if sidebar is NOT installed) -->
-        
-    <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
-
     <script>
-        function checkSidebarStatus() {
+        function installSidebar() {
+            let script = document.createElement("script");
+            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
+            script.onload = function() {
+                console.log("✅ Sidebar installed successfully!");
+                document.getElementById("installSidebarBtn").style.display = "none"; // Hide button after install
+            };
+            script.onerror = function() {
+                console.error("❌ Sidebar script failed to load. Check GitHub Pages.");
+            };
+            document.body.appendChild(script);
+        }
+    
+        document.addEventListener("DOMContentLoaded", function () {
             let burger = document.getElementById("burger-menu");
             let installBtn = document.getElementById("installSidebarBtn");
-
+    
             if (burger) {
                 installBtn.style.display = "none"; // Sidebar is installed → Hide Install Button
             } else {
                 installBtn.style.display = "block"; // Sidebar missing → Show Install Button
+                installBtn.addEventListener("click", installSidebar); // Attach click event
             }
-        }
-
-        window.addEventListener("DOMContentLoaded", checkSidebarStatus);
-        setTimeout(checkSidebarStatus, 1500); // Double-check after sidebar script loads
+        });
     </script>
-
+        
     
 </body>
 </html>
