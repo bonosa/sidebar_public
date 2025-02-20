@@ -53,7 +53,14 @@
             script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
             script.onload = function() {
                 console.log("✅ Sidebar installed successfully!");
-                document.getElementById("installSidebarBtn").style.display = "none"; // Hide button after install
+
+            document.addEventListener("DOMContentLoaded", function () {
+                let installBtn = document.getElementById("installSidebarBtn");
+                if (installBtn) {
+                    installBtn.style.display = "none"; // Only hide if the button exists
+                }
+});
+
             };
             script.onerror = function() {
                 console.error("❌ Sidebar script failed to load. Check GitHub Pages.");
@@ -74,6 +81,17 @@
         });
     </script>
         
+    <script>
+        let script = document.createElement("script");
+        script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
+        script.onload = function() {
+            console.log("✅ Sidebar script loaded successfully!");
+        };
+        script.onerror = function() {
+            console.error("❌ Sidebar script failed to load! Check GitHub Pages.");
+        };
+        document.body.appendChild(script);
+    </script>
     
 </body>
 </html>
