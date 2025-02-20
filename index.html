@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://bonosa.github.io/sidebar_public/styles.css">
 
     <style>
-
         h1 {
             font-size: 3rem;
             font-weight: bold;
@@ -45,43 +44,41 @@
 
     <a href="https://bonosa.github.io/sidebar_public/dashboard.html" class="btn">⚙️ Customize Sidebar</a>
     <a href="https://bonosa.github.io/sidebar_public/faq.html" class="btn">❓ Troubleshoot & FAQ</a>
-    
-    <!-- Install Sidebar Button (Shows only if sidebar is NOT installed) -->
+
+    <!-- Install Sidebar Button -->
+    <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
+
     <script>
         function installSidebar() {
             let script = document.createElement("script");
             script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
             script.onload = function() {
                 console.log("✅ Sidebar installed successfully!");
-
-            document.addEventListener("DOMContentLoaded", function () {
-                let installBtn = document.getElementById("installSidebarBtn");
-                if (installBtn) {
-                    installBtn.style.display = "none"; // Only hide if the button exists
-                }
-});
-
+                localStorage.setItem("sidebarInstalled", "true");
+                document.getElementById("installSidebarBtn").style.display = "none"; // Hide after install
+                checkSidebarStatus();
             };
             script.onerror = function() {
                 console.error("❌ Sidebar script failed to load. Check GitHub Pages.");
             };
             document.body.appendChild(script);
         }
-    
-            document.addEventListener("DOMContentLoaded", function () {
-                let burger = document.getElementById("burger-menu");
-                let installBtn = document.getElementById("installSidebarBtn");
-        
-                if (burger) {
-                    installBtn.style.display = "none"; // Sidebar is installed → Hide Install Button
-                } else {
-                    installBtn.style.display = "block"; // Sidebar missing → Show Install Button
-                    installBtn.addEventListener("click", installSidebar); // Attach click event
-                }
-        });
-    </script>
-        
-    <script>
+
+        function checkSidebarStatus() {
+            let burger = document.getElementById("burger-menu");
+            let installBtn = document.getElementById("installSidebarBtn");
+
+            if (burger) {
+                installBtn.style.display = "none"; // Sidebar exists → Hide Install Button
+            } else {
+                installBtn.style.display = "block"; // Sidebar missing → Show Install Button
+                installBtn.addEventListener("click", installSidebar);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", checkSidebarStatus);
+
+        // Ensure sidebar.min.js always loads
         let script = document.createElement("script");
         script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
         script.onload = function() {
@@ -92,7 +89,6 @@
         };
         document.body.appendChild(script);
     </script>
-    
+
 </body>
 </html>
-
