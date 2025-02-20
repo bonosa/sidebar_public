@@ -1,0 +1,18 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background: linear-gradient(45deg, #ff6b6b, #6b6bff, #6bff6b);
+    background-size: 400% 400%;
+    animation: gradientMove 8s infinite alternate ease-in-out;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}

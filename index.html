@@ -4,25 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Your Sidebar</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background: linear-gradient(45deg, #ff6b6b, #6b6bff, #6bff6b);
-            background-size: 400% 400%;
-            animation: gradientMove 8s infinite alternate ease-in-out;
-            color: white;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+    <link rel="stylesheet" href="https://bonosa.github.io/sidebar_public/styles.css">
 
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
+    <style>
 
         h1 {
             font-size: 3rem;
@@ -63,14 +47,39 @@
     <a href="https://bonosa.github.io/sidebar_public/faq.html" class="btn">❓ Troubleshoot & FAQ</a>
     
     <!-- Install Sidebar Button (Shows only if sidebar is NOT installed) -->
-    <button id="installSidebarBtn" class="btn">📥 Install Sidebar</button>
+        
+    <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
 
     <script>
-        // Dynamically load sidebar.min.js
-        let script = document.createElement("script");
-        script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
-        document.body.appendChild(script);
+        function checkSidebarStatus() {
+            let burger = document.getElementById("burger-menu");
+            let installBtn = document.getElementById("installSidebarBtn");
+
+            if (burger) {
+                installBtn.style.display = "none"; // Sidebar is installed → Hide Install Button
+            } else {
+                installBtn.style.display = "block"; // Sidebar missing → Show Install Button
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", checkSidebarStatus);
+        setTimeout(checkSidebarStatus, 1500); // Double-check after sidebar script loads
     </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let bgColor = localStorage.getItem("bgColor");
+        let textColor = localStorage.getItem("textColor");
+
+        if (bgColor) {
+            document.body.style.background = bgColor;
+        }
+        if (textColor) {
+            document.body.style.color = textColor;
+        }
+    });
+</script>
 
 </body>
 </html>
+
