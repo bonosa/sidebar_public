@@ -61,16 +61,16 @@
             document.body.appendChild(script);
         }
     
-        document.addEventListener("DOMContentLoaded", function () {
-            let burger = document.getElementById("burger-menu");
-            let installBtn = document.getElementById("installSidebarBtn");
-    
-            if (burger) {
-                installBtn.style.display = "none"; // Sidebar is installed → Hide Install Button
-            } else {
-                installBtn.style.display = "block"; // Sidebar missing → Show Install Button
-                installBtn.addEventListener("click", installSidebar); // Attach click event
-            }
+            document.addEventListener("DOMContentLoaded", function () {
+                let burger = document.getElementById("burger-menu");
+                let installBtn = document.getElementById("installSidebarBtn");
+        
+                if (burger) {
+                    installBtn.style.display = "none"; // Sidebar is installed → Hide Install Button
+                } else {
+                    installBtn.style.display = "block"; // Sidebar missing → Show Install Button
+                    installBtn.addEventListener("click", installSidebar); // Attach click event
+                }
         });
     </script>
         
