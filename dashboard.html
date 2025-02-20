@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customize Your Sidebar</title>
-    <link rel="stylesheet" href="https://bonosa.github.io/sidebar_public/styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -145,8 +144,25 @@
             document.getElementById("textColor").value = textColor;
             document.querySelector(".background-color").style.backgroundColor = bgColor;
             document.querySelector(".text-color").style.backgroundColor = textColor;
+
+
         });
 
     </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                let bgColor = localStorage.getItem("bgColor");
+                let textColor = localStorage.getItem("textColor");
+
+                if (bgColor) {
+                    document.body.style.background = bgColor;
+                }
+                if (textColor) {
+                    document.body.style.color = textColor;
+                }
+            });
+        </script>
+        -
 </body>
 </html>
