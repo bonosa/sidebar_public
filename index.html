@@ -59,29 +59,33 @@
     <h1>Welcome to Your Dynamic Sidebar</h1>
     <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
 
-    <a href="dashboard.html" class="btn">⚙️ Customize Sidebar</a>
-    <a href="faq.html" class="btn">❓ Troubleshoot & FAQ</a>
-
+    <a href="https://bonosa.github.io/sidebar_public/dashboard.html" class="btn">⚙️ Customize Sidebar</a>
+    <a href="https://bonosa.github.io/sidebar_public/faq.html" class="btn">❓ Troubleshoot & FAQ</a>
+    
     <!-- Install Sidebar Button (Shows only if sidebar is NOT installed) -->
-    <button id="installSidebarBtn" class="btn" onclick="installSidebar()">📥 Install Sidebar</button>
+    <<button id="installSidebarBtn" class="btn">📥 Install Sidebar</button>
 
     <script>
         function installSidebar() {
-            if (document.cookie.includes("sidebarRemoved=true")) {
-                document.cookie = "sidebarRemoved=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            }
+            document.cookie = "sidebarRemoved=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            
             let script = document.createElement("script");
             script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js";
+            script.onload = function() {
+                console.log("✅ Sidebar script loaded successfully!");
+                alert("Sidebar installed successfully!");
+            };
+            script.onerror = function() {
+                alert("Sidebar script failed to load. Check GitHub Pages.");
+            };
+    
             document.body.appendChild(script);
-            alert("Sidebar installed successfully!");
             document.getElementById("installSidebarBtn").style.display = "none";
         }
-
-        // Hide install button if sidebar is already installed
-        if (!document.cookie.includes("sidebarRemoved=true")) {
-            document.getElementById("installSidebarBtn").style.display = "none";
-        }
+    
+        // Automatically trigger install when button is clicked
+        document.getElementById("installSidebarBtn").addEventListener("click", installSidebar);
     </script>
-
+    
 </body>
 </html>
