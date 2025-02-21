@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Your Sidebar</title>
+    <link rel="stylesheet" href="https://bonosa.github.io/sidebar_public/styles.css">
+
+    <style>
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background: white;
+            color: black;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Your Dynamic Sidebar</h1>
+    <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
+
+    <a href="https://bonosa.github.io/sidebar_public/dashboard.html" class="btn">⚙️ Customize Sidebar</a>
+    <a href="https://bonosa.github.io/sidebar_public/faq.html" class="btn">❓ Troubleshoot & FAQ</a>
+
+    <!-- Install Sidebar Button -->
+    <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
+
+    <script>
+        function installSidebar() {
+            let script = document.createElement("script");
+            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
+            script.onload = function() {
+                console.log("✅ Sidebar installed successfully!");
+                localStorage.setItem("sidebarInstalled", "true");
+                document.getElementById("installSidebarBtn").style.display = "none"; // Hide after install
+                checkSidebarStatus();
+            };
+            script.onerror = function() {
+                console.error("❌ Sidebar script failed to load. Check GitHub Pages.");
+            };
+            document.body.appendChild(script);
+        }
+
+        function checkSidebarStatus() {
+            let burger = document.getElementById("burger-menu");
+            let installBtn = document.getElementById("installSidebarBtn");
+
+            if (burger) {
+                installBtn.style.display = "none"; // Sidebar exists → Hide Install Button
+            } else {
+                installBtn.style.display = "block"; // Sidebar missing → Show Install Button
+                installBtn.addEventListener("click", installSidebar);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", checkSidebarStatus);
+
+        // Ensure sidebar.min.js always loads
+        let script = document.createElement("script");
+        script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
+        script.onload = function() {
+            console.log("✅ Sidebar script loaded successfully!");
+        };
+        script.onerror = function() {
+            console.error("❌ Sidebar script failed to load! Check GitHub Pages.");
+        };
+        document.body.appendChild(script);
+    </script>
+
+</body>
+</html>
