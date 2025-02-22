@@ -25,7 +25,7 @@
     <script>
         function installSidebar() {
             let script = document.createElement("script");
-            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
+            script.src ="https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now()
             script.onload = function() {
                 console.log("✅ Sidebar installed successfully!");
                 localStorage.setItem("sidebarInstalled", "true");
