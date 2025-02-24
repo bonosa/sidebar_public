@@ -7,7 +7,44 @@
     <link rel="stylesheet" href="https://bonosa.github.io/sidebar_public/styles.css">
 
     <style>
-        /* ... (existing styles remain unchanged) ... */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #ff6b6b, #6b6bff, #6bff6b);
+            background-size: 400% 400%;
+            animation: gradientMove 8s infinite alternate ease-in-out;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.9);
+        }
     </style>
 </head>
 <body>
@@ -18,18 +55,26 @@
     <a href="https://bonosa.github.io/sidebar_public/dashboard.html" class="btn">⚙️ Customize Sidebar</a>
     <a href="https://bonosa.github.io/sidebar_public/faq.html" class="btn">❓ Troubleshoot & FAQ</a>
 
-    <!-- Install & Uninstall Buttons -->
+    <!-- Install/Uninstall Sidebar Button -->
     <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
-    <button id="uninstallSidebarBtn" class="btn" style="display: none;">🗑️ Uninstall Sidebar</button>
 
     <script>
+        function toggleSidebar() {
+            let sidebarInstalled = localStorage.getItem("sidebarInstalled");
+            if (!sidebarInstalled) {
+                installSidebar();
+            } else {
+                uninstallSidebar();
+            }
+        }
+
         function installSidebar() {
             let script = document.createElement("script");
-            script.src ="https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now()
+            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
             script.onload = function() {
-                console.log("✅ Sidebar installed successfully!");
+                console.log("✅ Sidebar installed!");
                 localStorage.setItem("sidebarInstalled", "true");
-                checkSidebarStatus();
+                document.getElementById("installSidebarBtn").innerText = "❌ Uninstall Sidebar";
             };
             script.onerror = function() {
                 console.error("❌ Sidebar script failed to load.");
@@ -37,45 +82,33 @@
             document.body.appendChild(script);
         }
 
-        function checkSidebarStatus() {
-            const burger = document.getElementById("burger-menu");
-            const installBtn = document.getElementById("installSidebarBtn");
-            const uninstallBtn = document.getElementById("uninstallSidebarBtn");
-
-            if (burger) {
-                installBtn.style.display = "none";
-                uninstallBtn.style.display = "block";
-            } else {
-                installBtn.style.display = "block";
-                uninstallBtn.style.display = "none";
-            }
+        function uninstallSidebar() {
+            localStorage.removeItem("sidebarInstalled");
+            document.cookie = "sidebarRemoved=true; path=/;";
+            location.reload();
         }
 
-        // Handle page load
-        document.addEventListener("DOMContentLoaded", function() {
-            const installBtn = document.getElementById("installSidebarBtn");
-            // Load sidebar if previously installed
-            if (localStorage.getItem("sidebarInstalled") === "true") {
-                installSidebar();
+        document.addEventListener("DOMContentLoaded", function () {
+            let installBtn = document.getElementById("installSidebarBtn");
+            if (localStorage.getItem("sidebarInstalled")) {
+                installBtn.innerText = "❌ Uninstall Sidebar";
+            } else {
+                installBtn.innerText = "📥 Install Sidebar";
             }
-            // Attach install button click handler
-            installBtn.addEventListener("click", installSidebar);
-            // Initial check
-            checkSidebarStatus();
+            installBtn.style.display = "block";
+            installBtn.addEventListener("click", toggleSidebar);
         });
 
-        // Handle uninstall
-        document.getElementById("uninstallSidebarBtn").addEventListener("click", function() {
-            // Remove elements
-            const burger = document.getElementById("burger-menu");
-            const sidebar = document.getElementById("sidebar");
-            if (burger) burger.remove();
-            if (sidebar) sidebar.remove();
-            // Clear storage
-            localStorage.removeItem("sidebarInstalled");
-            // Update UI
-            checkSidebarStatus();
-        });
+        // Ensure sidebar.min.js always loads
+        let script = document.createElement("script");
+        script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
+        script.onload = function() {
+            console.log("✅ Sidebar script loaded successfully!");
+        };
+        script.onerror = function() {
+            console.error("❌ Sidebar script failed to load! Check GitHub Pages.");
+        };
+        document.body.appendChild(script);
     </script>
 
 </body>
