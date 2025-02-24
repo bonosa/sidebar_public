@@ -91,7 +91,8 @@
         document.addEventListener("DOMContentLoaded", function () {
             let installBtn = document.getElementById("installSidebarBtn");
             if (localStorage.getItem("sidebarInstalled")) {
-                installBtn.innerText = "❌ Uninstall Sidebar";
+                installBtn.innerText = "⏏ Remove Sidebar";
+
             } else {
                 installBtn.innerText = "📥 Install Sidebar";
             }
