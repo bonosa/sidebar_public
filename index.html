@@ -1,110 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Your Sidebar</title>
-    <link rel="stylesheet" href="https://bonosa.github.io/sidebar_public/styles.css">
-
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background: linear-gradient(45deg, #ff6b6b, #6b6bff, #6bff6b);
-            background-size: 400% 400%;
-            animation: gradientMove 8s infinite alternate ease-in-out;
-            color: white;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        .btn {
-            background: rgba(255, 255, 255, 0.8);
-            color: black;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease-in-out;
-            margin: 10px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            background: rgba(255, 255, 255, 0.9);
-        }
-    </style>
-</head>
-<body>
-
-    <h1>Welcome to Your Dynamic Sidebar</h1>
-    <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
-
-    <!-- Install/Uninstall Sidebar Button -->
-    <button id="installSidebarBtn" class="btn" style="display: none;">Install Sidebar</button>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let sidebar = document.getElementById("sidebar");
-            let burgerMenu = document.getElementById("burger-menu");
-            let installBtn = document.getElementById("installSidebarBtn");
-        
-            // 1️⃣ Make sure sidebar is hidden if it's NOT installed
-            if (!localStorage.getItem("sidebarInstalled")) {
-                console.log("🚫 Sidebar NOT installed → Hiding sidebar and burger menu.");
-                if (sidebar) sidebar.style.display = "none";  
-                if (burgerMenu) burgerMenu.style.display = "none";
-                if (installBtn) installBtn.style.display = "block";  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let sidebar = document.getElementById("sidebar");
+        let burgerMenu = document.getElementById("burger-menu");
+        let installBtn = document.getElementById("installSidebarBtn");
+    
+        function updateUI() {
+            if (localStorage.getItem("sidebarInstalled")) {
+                console.log("✅ Sidebar Installed → Showing burger & sidebar");
+                sidebar.style.display = "block";  
+                burgerMenu.style.display = "block";  
+                installBtn.innerHTML = "⏏ Uninstall Sidebar";  
             } else {
-                console.log("✅ Sidebar IS installed → Showing sidebar and burger menu.");
-                if (sidebar) sidebar.style.display = "block";  
-                if (burgerMenu) burgerMenu.style.display = "block";  
-                if (installBtn) installBtn.style.display = "none";  
+                console.log("🚫 Sidebar NOT Installed → Hiding burger & sidebar");
+                sidebar.style.display = "none";  
+                burgerMenu.style.display = "none";  
+                installBtn.innerHTML = "📥 Install Sidebar";  
             }
-        
-            // 2️⃣ Install/Uninstall Button Logic
-            if (installBtn) {
-                installBtn.addEventListener("click", function () {
-                    if (!localStorage.getItem("sidebarInstalled")) {
-                        installSidebar();
-                    } else {
-                        uninstallSidebar();
-                    }
-                });
-            }
-        
-            // 3️⃣ Sidebar Install Function
-            function installSidebar() {
-                console.log("📥 Installing sidebar...");
-                localStorage.setItem("sidebarInstalled", "true");
-                if (sidebar) sidebar.style.display = "block";  
-                if (burgerMenu) burgerMenu.style.display = "block";  
-                if (installBtn) installBtn.style.display = "none";  
-            }
-        
-            // 4️⃣ Sidebar Uninstall Function
-            function uninstallSidebar() {
-                console.log("⏏ Removing sidebar...");
-                localStorage.removeItem("sidebarInstalled");
-                if (sidebar) sidebar.style.display = "none";  
-                if (burgerMenu) burgerMenu.style.display = "none";  
-                if (installBtn) installBtn.style.display = "block";  
+        }
+    
+        function installSidebar() {
+            console.log("📥 Installing sidebar...");
+            localStorage.setItem("sidebarInstalled", "true");
+            updateUI();
+        }
+    
+        function uninstallSidebar() {
+            console.log("⏏ Removing sidebar...");
+            localStorage.removeItem("sidebarInstalled");
+            updateUI();
+        }
+    
+        installBtn.addEventListener("click", function () {
+            if (localStorage.getItem("sidebarInstalled")) {
+                uninstallSidebar();
+            } else {
+                installSidebar();
             }
         });
-        </script>
-        
-
-</body>
-</html>
+    
+        // Ensure correct UI state on page load
+        updateUI();
+    });
+    </script>
+    
