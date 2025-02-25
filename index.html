@@ -50,10 +50,7 @@
 <body>
 
     <h1>Welcome to Your Dynamic Sidebar</h1>
-    <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
-
-    <a href="https://bonosa.github.io/sidebar_public/dashboard.html" class="btn">⚙️ Customize Sidebar</a>
-    <a href="https://bonosa.github.io/sidebar_public/faq.html" class="btn">❓ Troubleshoot & FAQ</a>
+    <p>Revolutionizing navigation 
 
     <!-- Install/Uninstall Sidebar Button -->
     <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
@@ -74,7 +71,7 @@
             script.onload = function() {
                 console.log("✅ Sidebar installed!");
                 localStorage.setItem("sidebarInstalled", "true");
-                document.getElementById("installSidebarBtn").innerText = "❌ Uninstall Sidebar";
+                document.getElementById("installSidebarBtn").innerText = "Remove Sidebar";
             };
             script.onerror = function() {
                 console.error("❌ Sidebar script failed to load.");
@@ -91,7 +88,8 @@
         document.addEventListener("DOMContentLoaded", function () {
             let installBtn = document.getElementById("installSidebarBtn");
             if (localStorage.getItem("sidebarInstalled")) {
-                installBtn.innerText = "⏏ Remove Sidebar";
+                <button id="installSidebarBtn" class="btn" style="display: none;">⏏ Remove Sidebar</button>
+
 
             } else {
                 installBtn.innerText = "📥 Install Sidebar";
