@@ -50,12 +50,31 @@
 <body>
 
     <h1>Welcome to Your Dynamic Sidebar</h1>
-    <p>Revolutionizing navigation 
+    <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
 
     <!-- Install/Uninstall Sidebar Button -->
     <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let installBtn = document.getElementById("installSidebarBtn");
+
+            if (!installBtn) {
+                console.log("❌ Install button is missing from index.html!");
+                return;
+            }
+
+            // Check if sidebar is installed
+            if (localStorage.getItem("sidebarInstalled")) {
+                installBtn.innerText = "⏏ Remove Sidebar";
+            } else {
+                installBtn.innerText = "📥 Install Sidebar";
+            }
+
+            installBtn.style.display = "block";
+            installBtn.addEventListener("click", toggleSidebar);
+        });
+
         function toggleSidebar() {
             let sidebarInstalled = localStorage.getItem("sidebarInstalled");
             if (!sidebarInstalled) {
@@ -71,7 +90,7 @@
             script.onload = function() {
                 console.log("✅ Sidebar installed!");
                 localStorage.setItem("sidebarInstalled", "true");
-                document.getElementById("installSidebarBtn").innerText = "Remove Sidebar";
+                document.getElementById("installSidebarBtn").innerText = "⏏ Remove Sidebar";
             };
             script.onerror = function() {
                 console.error("❌ Sidebar script failed to load.");
@@ -84,19 +103,6 @@
             document.cookie = "sidebarRemoved=true; path=/;";
             location.reload();
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            let installBtn = document.getElementById("installSidebarBtn");
-            if (localStorage.getItem("sidebarInstalled")) {
-                <button id="installSidebarBtn" class="btn" style="display: none;">⏏ Remove Sidebar</button>
-
-
-            } else {
-                installBtn.innerText = "📥 Install Sidebar";
-            }
-            installBtn.style.display = "block";
-            installBtn.addEventListener("click", toggleSidebar);
-        });
 
         // Ensure sidebar.min.js always loads
         let script = document.createElement("script");
