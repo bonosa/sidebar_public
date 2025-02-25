@@ -1,155 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customize Your Sidebar</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .color-box {
-            width: 100%;
-            height: 40px;
-            margin: 10px auto;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            position: relative;
-        }
-        .tooltip {
-            visibility: hidden;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 5px;
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
-            white-space: nowrap;
-        }
-        .color-box:hover .tooltip {
-            visibility: visible;
-        }
-        .background-color { background-color: #ff99cc; }
-        .text-color { background-color: #3399ff; }
-        label {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 15px;
-            display: block;
-        }
-        input[type="color"] {
-            opacity: 0;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        button {
-            background: #007BFF;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        .back-btn {
-            display: block;
-            margin-top: 20px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #007BFF;
-        }
-        .back-btn:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <h1>Customize Your Sidebar</h1>
-    <div class="container">
-        <label>Background Color</label>
-        <div class="color-box background-color" onclick="document.getElementById('bgColor').click();">
-            <span class="tooltip">Click anywhere on me to select the color</span>
-            <input type="color" id="bgColor" oninput="changeColor('bgColor', 'background-color')">
-        </div>
+<h2>Customize Your Sidebar</h2>
 
-        <label>Text Color</label>
-        <div class="color-box text-color" onclick="document.getElementById('textColor').click();">
-            <span class="tooltip">Click anywhere on me to select the color</span>
-            <input type="color" id="textColor" oninput="changeColor('textColor', 'text-color')">
-        </div>
+<!-- Add New Link Button -->
+<button id="addLinkBtn" class="btn">➕ Add Link</button>
 
-        <button onclick="applyChanges()">Apply Changes</button>
-        <button onclick="resetSettings()">Reset to Default</button>
+<!-- Custom Links List -->
+<div id="customLinks"></div>
 
-        <!-- Back to Home Button -->
-        <a href="https://bonosa.github.io/sidebar_public/index.html" class="back-btn">⬅ Back to Home</a>
-    </div>
+<!-- Apply Changes Button -->
+<button id="applyChangesBtn" class="btn">✔ Apply Changes</button>
 
-    <script>
-        function changeColor(inputId, target) {
-            let color = document.getElementById(inputId).value;
-            localStorage.setItem(inputId, color);
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let addLinkBtn = document.getElementById("addLinkBtn");
+        let applyChangesBtn = document.getElementById("applyChangesBtn");
+        let customLinksDiv = document.getElementById("customLinks");
 
-            if (target === "background-color") {
-                document.querySelector(".background-color").style.backgroundColor = color;
-            } 
-            if (target === "text-color") {
-                document.querySelector(".text-color").style.backgroundColor = color;
-            }
+        let savedLinks = JSON.parse(localStorage.getItem("customSidebarLinks")) || [];
+
+        function renderLinks() {
+            customLinksDiv.innerHTML = "";
+            savedLinks.forEach((link, index) => {
+                let div = document.createElement("div");
+                div.innerHTML = `
+                    <input type="text" value="${link.name}" placeholder="Page Name" class="sidebar-input" id="name-${index}">
+                    <input type="text" value="${link.url}" placeholder="Page URL" class="sidebar-input" id="url-${index}">
+                    <button onclick="removeLink(${index})" class="btn small-btn">❌</button>
+                `;
+                customLinksDiv.appendChild(div);
+            });
         }
 
-        function applyChanges() {
-            alert("Changes applied! Go back to the homepage to see them.");
+        function saveLinks() {
+            let newLinks = [];
+            document.querySelectorAll("#customLinks div").forEach((div, index) => {
+                let name = document.getElementById(`name-${index}`).value;
+                let url = document.getElementById(`url-${index}`).value;
+                
+                if (name && url) {
+                    let isSameDomain = url.includes(window.location.hostname);
+                    if (!isSameDomain) {
+                        let confirmExternal = confirm(`"${url}" is an external link. Are you sure?`);
+                        if (!confirmExternal) return;
+                    }
+                    newLinks.push({ name, url });
+                }
+            });
+
+            localStorage.setItem("customSidebarLinks", JSON.stringify(newLinks));
+            alert("✔ Sidebar links updated!");
         }
 
-        function resetSettings() {
-            localStorage.removeItem("bgColor");
-            localStorage.removeItem("textColor");
-            location.reload();
+        function removeLink(index) {
+            savedLinks.splice(index, 1);
+            localStorage.setItem("customSidebarLinks", JSON.stringify(savedLinks));
+            renderLinks();
         }
 
-            document.addEventListener("DOMContentLoaded", function() {
-            let bgColor = localStorage.getItem("bgColor") || "#ff99cc";
-            let textColor = localStorage.getItem("textColor") || "#3399ff";
-            document.getElementById("bgColor").value = bgColor;
-            document.getElementById("textColor").value = textColor;
-            document.querySelector(".background-color").style.backgroundColor = bgColor;
-            document.querySelector(".text-color").style.backgroundColor = textColor;
-
-
+        addLinkBtn.addEventListener("click", function () {
+            savedLinks.push({ name: "", url: "" });
+            renderLinks();
         });
 
-    </script>
+        applyChangesBtn.addEventListener("click", function () {
+            saveLinks();
+        });
 
-    
-</body>
-</html>
+        renderLinks();
+    });
+</script>
+<h2>Customize Your Sidebar</h2>
+
+<!-- Add New Link Button -->
+<button id="addLinkBtn" class="btn">➕ Add Link</button>
+
+<!-- Custom Links List -->
+<div id="customLinks"></div>
+
+<!-- Apply Changes Button -->
+<button id="applyChangesBtn" class="btn">✔ Apply Changes</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let addLinkBtn = document.getElementById("addLinkBtn");
+        let applyChangesBtn = document.getElementById("applyChangesBtn");
+        let customLinksDiv = document.getElementById("customLinks");
+
+        let savedLinks = JSON.parse(localStorage.getItem("customSidebarLinks")) || [];
+
+        function renderLinks() {
+            customLinksDiv.innerHTML = "";
+            savedLinks.forEach((link, index) => {
+                let div = document.createElement("div");
+                div.innerHTML = `
+                    <input type="text" value="${link.name}" placeholder="Page Name" class="sidebar-input" id="name-${index}">
+                    <input type="text" value="${link.url}" placeholder="Page URL" class="sidebar-input" id="url-${index}">
+                    <button onclick="removeLink(${index})" class="btn small-btn">❌</button>
+                `;
+                customLinksDiv.appendChild(div);
+            });
+        }
+
+        function saveLinks() {
+            let newLinks = [];
+            document.querySelectorAll("#customLinks div").forEach((div, index) => {
+                let name = document.getElementById(`name-${index}`).value;
+                let url = document.getElementById(`url-${index}`).value;
+                
+                if (name && url) {
+                    let isSameDomain = url.includes(window.location.hostname);
+                    if (!isSameDomain) {
+                        let confirmExternal = confirm(`"${url}" is an external link. Are you sure?`);
+                        if (!confirmExternal) return;
+                    }
+                    newLinks.push({ name, url });
+                }
+            });
+
+            localStorage.setItem("customSidebarLinks", JSON.stringify(newLinks));
+            alert("✔ Sidebar links updated!");
+        }
+
+        function removeLink(index) {
+            savedLinks.splice(index, 1);
+            localStorage.setItem("customSidebarLinks", JSON.stringify(savedLinks));
+            renderLinks();
+        }
+
+        addLinkBtn.addEventListener("click", function () {
+            savedLinks.push({ name: "", url: "" });
+            renderLinks();
+        });
+
+        applyChangesBtn.addEventListener("click", function () {
+            saveLinks();
+        });
+
+        renderLinks();
+    });
+</script>
