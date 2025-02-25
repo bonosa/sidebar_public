@@ -53,68 +53,58 @@
     <p>Revolutionizing navigation with a sleek, embeddable sidebar.</p>
 
     <!-- Install/Uninstall Sidebar Button -->
-    <button id="installSidebarBtn" class="btn" style="display: none;">📥 Install Sidebar</button>
+    <button id="installSidebarBtn" class="btn" style="display: none;">Install Sidebar</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            let sidebar = document.getElementById("sidebar");
+            let burgerMenu = document.getElementById("burger-menu");
             let installBtn = document.getElementById("installSidebarBtn");
-
-            if (!installBtn) {
-                console.log("❌ Install button is missing from index.html!");
-                return;
-            }
-
-            // Check if sidebar is installed
-            if (localStorage.getItem("sidebarInstalled")) {
-                installBtn.innerText = "⏏ Remove Sidebar";
+        
+            // 1️⃣ Make sure sidebar is hidden if it's NOT installed
+            if (!localStorage.getItem("sidebarInstalled")) {
+                console.log("🚫 Sidebar NOT installed → Hiding sidebar and burger menu.");
+                if (sidebar) sidebar.style.display = "none";  
+                if (burgerMenu) burgerMenu.style.display = "none";
+                if (installBtn) installBtn.style.display = "block";  
             } else {
-                installBtn.innerText = "📥 Install Sidebar";
+                console.log("✅ Sidebar IS installed → Showing sidebar and burger menu.");
+                if (sidebar) sidebar.style.display = "block";  
+                if (burgerMenu) burgerMenu.style.display = "block";  
+                if (installBtn) installBtn.style.display = "none";  
             }
-
-            installBtn.style.display = "block";
-            installBtn.addEventListener("click", toggleSidebar);
-        });
-
-        function toggleSidebar() {
-            let sidebarInstalled = localStorage.getItem("sidebarInstalled");
-            if (!sidebarInstalled) {
-                installSidebar();
-            } else {
-                uninstallSidebar();
+        
+            // 2️⃣ Install/Uninstall Button Logic
+            if (installBtn) {
+                installBtn.addEventListener("click", function () {
+                    if (!localStorage.getItem("sidebarInstalled")) {
+                        installSidebar();
+                    } else {
+                        uninstallSidebar();
+                    }
+                });
             }
-        }
-
-        function installSidebar() {
-            let script = document.createElement("script");
-            script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
-            script.onload = function() {
-                console.log("✅ Sidebar installed!");
+        
+            // 3️⃣ Sidebar Install Function
+            function installSidebar() {
+                console.log("📥 Installing sidebar...");
                 localStorage.setItem("sidebarInstalled", "true");
-                document.getElementById("installSidebarBtn").innerText = "⏏ Remove Sidebar";
-            };
-            script.onerror = function() {
-                console.error("❌ Sidebar script failed to load.");
-            };
-            document.body.appendChild(script);
-        }
-
-        function uninstallSidebar() {
-            localStorage.removeItem("sidebarInstalled");
-            document.cookie = "sidebarRemoved=true; path=/;";
-            location.reload();
-        }
-
-        // Ensure sidebar.min.js always loads
-        let script = document.createElement("script");
-        script.src = "https://bonosa.github.io/sidebar_public/sidebar.min.js?v=" + Date.now();
-        script.onload = function() {
-            console.log("✅ Sidebar script loaded successfully!");
-        };
-        script.onerror = function() {
-            console.error("❌ Sidebar script failed to load! Check GitHub Pages.");
-        };
-        document.body.appendChild(script);
-    </script>
+                if (sidebar) sidebar.style.display = "block";  
+                if (burgerMenu) burgerMenu.style.display = "block";  
+                if (installBtn) installBtn.style.display = "none";  
+            }
+        
+            // 4️⃣ Sidebar Uninstall Function
+            function uninstallSidebar() {
+                console.log("⏏ Removing sidebar...");
+                localStorage.removeItem("sidebarInstalled");
+                if (sidebar) sidebar.style.display = "none";  
+                if (burgerMenu) burgerMenu.style.display = "none";  
+                if (installBtn) installBtn.style.display = "block";  
+            }
+        });
+        </script>
+        
 
 </body>
 </html>
